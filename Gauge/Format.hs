@@ -1,7 +1,7 @@
 -- |
 -- Module      : Gauge.Format
 -- Copyright   : (c) 2017 Vincent Hanquez
--- 
+--
 -- Formatting helpers
 --
 -- shame there's no leftPad package to use. /s
@@ -17,7 +17,7 @@ module Gauge.Format
     ) where
 
 import Gauge.Time
-import Data.List
+import Data.List hiding (concat, concatMap, maximum, minimum, length)
 import Data.Word
 import Text.Printf
 import qualified Basement.Terminal.ANSI as ANSI
@@ -36,7 +36,7 @@ import           GHC.Exts (toList)
 --
 -- Note that the seconds parameters is aligned considered
 -- maximum of 2 characters (i.e. 99 seconds).
--- 
+--
 printNanoseconds :: Maybe Char -> NanoSeconds -> String
 printNanoseconds thousandSeparator (NanoSeconds absNs) =
     case divSub1000 0 absNs of
@@ -47,7 +47,7 @@ printNanoseconds thousandSeparator (NanoSeconds absNs) =
         _            -> error "printNanoSeconds: internal error: invalid format"
   where
     maxLength = 3 + 3 + 3 + 2 + (sepLength * 3)
-  
+
     (addSeparators1000, sepLength) =
         case thousandSeparator of
             Nothing -> (concat, 0)
